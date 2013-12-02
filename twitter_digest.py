@@ -102,7 +102,7 @@ class TwitterArchive(object):
         return message
 
       else:
-
+        print "out of range..."
         return None
 
 
