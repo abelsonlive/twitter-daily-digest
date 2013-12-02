@@ -136,7 +136,7 @@ class TwitterArchive(object):
     tweets = self.grab_tweets()
     print "found %d tweets" % len(tweets)
     message = "<h1>" + date + "</h1><hr></hr>" + self.format_message(tweets)
-    self.send_email(subject, message)
+    self.send_email(message, subject)
 
 if __name__ == '__main__':
   ta = TwitterArchive("thenedders")
