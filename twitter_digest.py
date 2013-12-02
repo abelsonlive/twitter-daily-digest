@@ -5,8 +5,6 @@ import tweepy
 from datetime import datetime, timedelta
 import pystmark
 import yaml
-import pystmark
-import yaml
 import pytz
 
 CONFIG = yaml.safe_load(open('config.yml'))
@@ -41,15 +39,13 @@ class TwitterArchive(object):
     self.email_to = CONFIG["email_to"]
     self.email_from = CONFIG["email_from"]
     self.api = self.connect_to_twitter()
-   
-    print self.one_day_ago
+
 
   def connect_to_twitter(self):
     # authenticate
     auth = tweepy.OAuthHandler(self.consumer_key, self.consumer_secret)
     auth.set_access_token(self.access_token, self.access_token_secret)
     api = tweepy.API(auth)
-
     return api
 
 
@@ -81,7 +77,6 @@ class TwitterArchive(object):
       date = tz_adj(t.created_at)
 
       if date > self.one_day_ago:
-        print "within one day..."
 
         # format date
         date = date.strftime('%Y-%m-%d %H:%M:%S')
@@ -107,7 +102,7 @@ class TwitterArchive(object):
         return message
 
       else:
-        print "longer than one day..."
+
         return None
 
 
@@ -124,7 +119,7 @@ class TwitterArchive(object):
 
   def grab_tweets(self):
     tweets = []
-    for p in range(1, 20):
+    for p in range(1, 15):
       these_tweets = self.api.home_timeline(
         screen_name=self.screen_name, 
         page=p, 
@@ -137,11 +132,12 @@ class TwitterArchive(object):
 
   def run(self):
     date = datetime.now().strftime("%A, %B %d, %Y")
-    subject = "Ned's Daily Twtitter Digest - %s" % date
+    subject = "Ned's Twtitter Digest - %s" % date
     tweets = self.grab_tweets()
+    print "found %d tweets" % len(tweets)
     message = "<h1>" + date + "</h1><hr></hr>" + self.format_message(tweets)
-    # self.send_email(message, subject)
+    self.send_email(subject, message)
 
 if __name__ == '__main__':
   ta = TwitterArchive("thenedders")
-  print ta.run()
+  ta.run()
