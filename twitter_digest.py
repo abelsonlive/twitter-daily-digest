@@ -119,7 +119,7 @@ class TwitterArchive(object):
 
   def grab_tweets(self):
     tweets = []
-    for p in range(1, 2):
+    for p in range(1, 15):
       these_tweets = self.api.home_timeline(
         screen_name=self.screen_name, 
         page=p, 
