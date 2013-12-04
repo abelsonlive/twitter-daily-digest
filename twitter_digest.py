@@ -119,7 +119,7 @@ class TwitterArchive(object):
 
   def grab_tweets(self):
     tweets = []
-    for p in range(1, 15):
+    for p in range(1, 2):
       these_tweets = self.api.home_timeline(
         screen_name=self.screen_name, 
         page=p, 
@@ -131,11 +131,11 @@ class TwitterArchive(object):
 
 
   def run(self):
-    date = datetime.now().strftime("%A, %B %d, %Y")
-    subject = "Ned's Twtitter Digest - %s" % date
+    datestring = datetime.now().strftime("%m/%d/%y - %H %p")
+    subject = "Twtitter Digest - %s" % datestring
     tweets = self.grab_tweets()
     print "found %d tweets" % len(tweets)
-    message = "<h1>" + date + "</h1><hr></hr>" + self.format_message(tweets)
+    message = "<h1>" + subject + "</h1><hr></hr>" + self.format_message(tweets)
     self.send_email(message, subject)
 
 if __name__ == '__main__':
